@@ -1,0 +1,28 @@
+[2025-08-23 09:48:22,858] [INFO] GET /
+[2025-08-23 09:48:57,033] [INFO] GET /
+[2025-08-23 09:48:59,414] [INFO] GET /
+[2025-08-23 09:50:04,256] [INFO] GET /
+[2025-08-23 09:50:32,903] [INFO] GET /
+[2025-08-23 09:50:45,859] [INFO] GET /
+[2025-08-23 10:01:57,386] [INFO] POST /api/payment/callback
+[2025-08-23 10:01:57,386] [ERROR] Webhook secret not configured
+[2025-08-23 10:01:57,395] [INFO] POST /api/payment/callback
+[2025-08-23 10:01:57,395] [ERROR] Webhook secret not configured
+[2025-08-23 10:02:12,359] [INFO] POST /api/payment/callback
+[2025-08-23 10:02:12,359] [ERROR] Webhook secret not configured
+[2025-08-23 10:02:14,289] [INFO] POST /api/payment/callback
+[2025-08-23 10:02:14,289] [ERROR] Webhook secret not configured
+[2025-08-23 10:10:41,858] [INFO] POST /api/payment/callback
+[2025-08-23 10:10:41,859] [WARNING] Invalid Stripe signature
+[2025-08-23 10:10:42,185] [INFO] POST /api/payment/callback
+[2025-08-23 10:10:42,186] [WARNING] Invalid Stripe signature
+[2025-08-23 16:39:59,001] [INFO] GET /
+[2025-08-23 17:40:47,096] [INFO] POST /api/payment/callback
+[2025-08-23 17:40:47,635] [INFO] POST /api/payment/callback
+[2025-08-23 17:40:47,761] [INFO] POST /api/payment/callback
+[2025-08-23 17:40:53,455] [INFO] Processing event evt_3RzRzDAKUN2go7Zi3vSFDEBO (payment_intent.succeeded)
+[2025-08-23 17:40:53,455] [INFO] 💸 Payment succeeded: 9700 cad | intent=pi_3RzRzDAKUN2go7Zi31DM4wXt
+[2025-08-23 17:40:53,459] [INFO] Processing event evt_1RzRzGAKUN2go7ZiX0iIKBFS (checkout.session.completed)
+[2025-08-23 17:40:53,459] [INFO] ✅ Checkout completed by uthmanabdulazeez2020@gmail.com | session=cs_test_a1uMGdecolY0CluuCYe7WAywUyo6l3KIQ2k1KcV7QVv92SB7NVLxds0vPi
+[2025-08-23 17:40:53,792] [INFO] Processing event evt_3RzRzDAKUN2go7Zi3cUqeBBp (payment_intent.created)
+[2025-08-23 17:40:53,793] [INFO] ℹ️ Unhandled event type: payment_intent.created

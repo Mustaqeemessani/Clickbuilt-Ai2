@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClickBuilt.ai — From Prompt to Business</title>
+    <meta name="description"
+        content="Generate your website, CRM, booking system, and AI receptionist with a single prompt." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Base Styles & Variables ===== */
+        :root {
+            --bg: #ffffff;
+            --text: #0b0b0b;
+            --muted: #475569;
+            /* slate-600 */
+            --muted-2: #64748b;
+            /* slate-500 */
+            --line: rgba(0, 0, 0, 0.05);
+            --card-line: rgba(0, 0, 0, 0.10);
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-300: #cbd5e1;
+            --yellow-300: #fde047;
+            --yellow-400: #facc15;
+            --shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+            --radius: 24px;
+            --radius-lg: 32px;
+            --maxw: 72rem;
+            /* 1152px */
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button {
+            font: inherit;
+            color: inherit;
+        }
+
+        .container {
+            max-width: var(--maxw);
+            margin-inline: auto;
+            padding-inline: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding-inline: 2.5rem;
+            }
+        }
+
+        /* ===== Header / Navbar ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: saturate(180%) blur(4px);
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .brand {
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav {
+            display: none;
+            gap: 2rem;
+            font-size: .95rem;
+            font-weight: 600;
+        }
+
+        .nav a {
+            opacity: .9;
+            transition: color .2s ease, opacity .2s ease;
+        }
+
+        .nav a:hover,
+        .nav a:focus {
+            color: var(--yellow-500, #eab308);
+            outline: none;
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: var(--yellow-400);
+            border: none;
+            border-radius: 999px;
+            padding: .6rem 1rem;
+            font-weight: 700;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: transform .06s ease, filter .2s ease, background-color .2s ease;
+        }
+
+        .cta:hover {
+            filter: brightness(1.02);
+            background: var(--yellow-300);
+        }
+
+        .cta:active {
+            transform: translateY(1px);
+        }
+
+        .arrow {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .hamburger {
+            display: inline-flex;
+            gap: .4rem;
+            flex-direction: column;
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: .5rem;
+        }
+
+        .hamburger span {
+            width: 20px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+
+            .hamburger {
+                display: none;
+            }
+        }
+
+        /* ===== Sections ===== */
+        section {
+            padding-block: clamp(3rem, 6vw, 7rem);
+        }
+
+        /* Hero */
+        .hero {
+            display: grid;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.25rem, 3.5vw + 1rem, 3.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            font-weight: 900;
+        }
+
+        .pill {
+            background: var(--yellow-300);
+            border-radius: 10px;
+            padding: 0 .4rem;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            max-width: 36ch;
+            margin-inline: auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            border-radius: 999px;
+            padding: .9rem 1.25rem;
+            font-weight: 700;
+            font-size: .95rem;
+            cursor: pointer;
+            transition: transform .06s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+        }
+
+        .btn-primary {
+            background: var(--yellow-400);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--yellow-300);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #111;
+        }
+
+        .btn-outline:hover {
+            background: #111;
+            color: white;
+        }
+
+        .preview {
+            position: relative;
+            border: 1px solid var(--card-line);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .preview-inner {
+            background: var(--slate-100);
+            aspect-ratio: 16 / 10;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+        }
+
+        .preview-mock {
+            text-align: center;
+            max-width: 28rem;
+            width: 100%;
+        }
+
+        .skeleton {
+            height: 24px;
+            width: 10rem;
+            background: var(--yellow-300);
+            border-radius: 8px;
+            margin: 0 auto 1rem;
+        }
+
+        .skeleton-2 {
+            height: 16px;
+            width: 16rem;
+            background: var(--slate-300);
+            border-radius: 8px;
+            margin: 0 auto 1.25rem;
+        }
+
+        .window {
+            height: 12rem;
+            width: 18rem;
+            background: white;
+            border-radius: 14px;
+            border: 1px solid var(--card-line);
+            box-shadow: 0 6px 20px rgba(2, 6, 23, .06);
+            margin: 0 auto;
+        }
+
+        .caption {
+            margin-top: 1rem;
+            font-size: .9rem;
+            color: #6b7280;
+        }
+
+        /* How It Works */
+        .how {
+            display: grid;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        @media (min-width: 640px) {
+            .how {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .step-num {
+            font-size: 2.25rem;
+            font-weight: 900;
+            margin-bottom: .25rem;
+        }
+
+        .step-text {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        /* Features */
+        .features {
+            background: var(--slate-50);
+        }
+
+        .features-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid var(--card-line);
+            border-radius: 18px;
+            padding: 1.25rem;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 .35rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--muted-2);
+            font-size: .92rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            text-align: center;
+        }
+
+        .pricing h2 {
+            font-size: clamp(1.75rem, 2.2vw + 1rem, 2.25rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .plan {
+            border: 1px solid var(--card-line);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .plan h3 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .price {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .price small {
+            font-weight: 500;
+            font-size: .9rem;
+        }
+
+        .plan .select {
+            width: 100%;
+        }
+
+        .plan--highlight {
+            border-color: var(--yellow-400);
+            box-shadow: 0 0 0 4px var(--yellow-300);
+        }
+
+        /* FAQ */
+        .faq h2 {
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .qa {
+            border-bottom: 1px solid var(--line);
+            padding: 1rem 0;
+        }
+
+        .qa:last-child {
+            border-bottom: none;
+        }
+
+        .qa p {
+            margin: .25rem 0 0;
+            color: var(--muted-2);
+            font-size: .95rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--line);
+            color: #64748b;
+            font-size: .95rem;
+        }
+
+        .foot {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 0;
+        }
+
+        .foot nav {
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .foot {
+                flex-direction: row;
+            }
+        }
+
+        /* Utilities */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Smooth anchor scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Focus styles */
+        :is(a, button):focus-visible {
+            outline: 3px solid #111;
+            outline-offset: 2px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <header>
+        <div class="container nav-wrap">
+            <div class="brand">ClickBuilt.ai</div>
+            <nav class="nav" aria-label="Primary">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+            <button class="cta" id="get-started">
+                <span>Get Started</span>
+                <!-- Inline lucide-style ArrowRight icon -->
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <button class="hamburger" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav"
+                aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <!-- Mobile nav -->
+        <div class="container hidden" id="mobile-nav">
+            <nav aria-label="Mobile">
+                <div style="display:flex; gap:1rem; padding: .5rem 0 1rem; font-weight: 600;">
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="container hero" id="home">
+        <div style="text-align:center;">
+            <h1>From Prompt <span class="pill">to Business</span> in Minutes</h1>
+            <p style="margin-top: 1rem;">Generate your website, CRM, booking system, and AI receptionist with a single
+                prompt.</p>
+            <div class="hero-actions" style="margin-top: 1.25rem;">
+                <button class="btn btn-primary" id="try-free">Try it Free</button>
+                <button class="btn btn-outline" id="see-demo">See Demo</button>
+            </div>
+        </div>
+
+        <!-- Demo Preview -->
+        <div class="preview" aria-label="Demo preview">
+            <div class="preview-inner">
+                <div class="preview-mock">
+                    <div class="skeleton" aria-hidden="true"></div>
+                    <div class="skeleton-2" aria-hidden="true"></div>
+                    <div class="window" aria-hidden="true"></div>
+                    <p class="caption">Live demo preview of your AI-generated site</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="container how" aria-labelledby="how-title">
+        <h2 id="how-title" class="sr-only">How it works</h2>
+        <div>
+            <div class="step-num">1</div>
+            <div class="step-text">Describe your business</div>
+        </div>
+        <div>
+            <div class="step-num">2</div>
+            <div class="step-text">AI builds everything</div>
+        </div>
+        <div>
+            <div class="step-num">3</div>
+            <div class="step-text">Launch instantly</div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="features-grid">
+                <article class="feature-card">
+                    <h3>Website Generator</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </article>
+                <article class="feature-card">
+                    <h3>AI Receptionist</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </article>
+                <article class="feature-card">
+                    <h3>Automations</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </article>
+                <article class="feature-card">
+                    <h3>1-Click Publish</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section id="pricing" class="container pricing" aria-labelledby="pricing-title">
+        <h2 id="pricing-title">Simple Pricing</h2>
+        <div class="pricing-grid">
+            <div class="plan">
+                <h3>Starter</h3>
+                <div class="price">$97 <small>/mo</small></div>
+                <a href="https://buy.stripe.com/test_cNifZgfvq9ihgGb4mK3sI00"><button class="btn btn-outline select">Choose Plan</button></a>
+            </div>
+            <div class="plan">
+                <h3>Pro</h3>
+                <div class="price">$197 <small>/mo</small></div>
+                <a href="https://buy.stripe.com/8x25kCfvq5219dJ9H43sI01"><button class="btn btn-outline select">Choose Plan</button></a>
+            </div>
+            <div class="plan plan--highlight">
+                <h3>Scale</h3>
+                <div class="price">$397 <small>/mo</small></div>
+                <a href="https://buy.stripe.com/eVq3cu2IE1PPblRf1o3sI02"><button class="btn btn-primary select">Most Popular</button></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="container faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">FAQs</h2>
+        <div class="qa">
+            <strong>Do I need hosting?</strong>
+            <p>No. ClickBuilt hosts and optimizes your site for you.</p>
+        </div>
+        <div class="qa">
+            <strong>Can I try before paying?</strong>
+            <p>Yes. Free trial with no credit card required.</p>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container foot">
+            <div>© <span id="year"></span> ClickBuilt.ai</div>
+            <nav aria-label="Footer">
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Support</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- ===== Minimal JS ===== -->
+    <script>
+        // Current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        navToggle.addEventListener('click', () => {
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', String(!expanded));
+            mobileNav.classList.toggle('hidden');
+        });
+
+        // Button demos (replace with real logic)
+        document.getElementById('see-demo').addEventListener('click', () => {
+            window.location.hash = '#features';
+        });
+        document.getElementById('try-free').addEventListener('click', () => {
+            alert('🚀 Start your free trial flow here.');
+        });
+        document.getElementById('get-started').addEventListener('click', () => {
+            window.location.hash = '#pricing';
+        });
+    </script>
+</body>
+
+</html>
