@@ -10,23 +10,23 @@ app = FastAPI()
 
 # ---------------- LOGGER SETUP ----------------
 BASE_DIR = Path(__file__).resolve().parent
-LOG_FILE = BASE_DIR / "webhook.log"
+#LOG_FILE = BASE_DIR / "webhook.log"
 DB_FILE = BASE_DIR / "db.json"
 
-logger = logging.getLogger("stripe-webhook")
-logger.setLevel(logging.INFO)
+#logger = logging.getLogger("stripe-webhook")
+#logger.setLevel(logging.INFO)
 
 # File handler writes to BASE_DIR/webhook.log
-file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
-file_handler.setLevel(logging.INFO)
-formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s")
-file_handler.setFormatter(formatter)
+#file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
+#file_handler.setLevel(logging.INFO)
+#formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s")
+#file_handler.setFormatter(formatter)
 
 # Add handler only once
-if not logger.handlers:
-    logger.addHandler(file_handler)
+#if not logger.handlers:
+#    logger.addHandler(file_handler)
 
-logger.propagate = False  # prevent uvicorn from duplicating logs
+#logger.propagate = False  # prevent uvicorn from duplicating logs
 # ------------------------------------------------
 
 db = TinyDB(DB_FILE)
@@ -36,7 +36,7 @@ stripe.api_key = os.getenv("API_KEY") # e.g. "sk_live_..."
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET") # e.g. "whsec_..."
 
 
-def _extract_email_from_event_object(obj: dict) -> str | None:
+def _extract_email_from_event_object(obj: dict):
     """Best-effort extraction of a customer's email from common event objects."""
     try:
         # Newer sessions keep it under customer_details.email; older had customer_email
@@ -56,33 +56,35 @@ def process_event_record(event_id: str, event_type: str) -> None:
         ev = stripe.Event.retrieve(event_id)
         obj = ev.get("data", {}).get("object", {})  # type: ignore[assignment]
     except Exception:
-        logger.exception("Failed to retrieve event from Stripe (id=%s)", event_id)
+#        logger.exception("Failed to retrieve event from Stripe (id=%s)", event_id)
         return
 
-    logger.info("Processing event %s (%s)", event_id, event_type)
+#    logger.info("Processing event %s (%s)", event_id, event_type)
 
     try:
         if event_type == "checkout.session.completed":
             email = _extract_email_from_event_object(obj) or "unknown"
-            logger.info("✅ Checkout completed by %s | session=%s", email, obj.get("id"))
+ #           logger.info("✅ Checkout completed by %s | session=%s", email, obj.get("id"))
             # TODO: grant access / fulfill order here
 
         elif event_type == "payment_intent.succeeded":
             amount = obj.get("amount_received") or obj.get("amount")
             currency = obj.get("currency")
-            logger.info("💸 Payment succeeded: %s %s | intent=%s", amount, currency, obj.get("id"))
+#            logger.info("💸 Payment succeeded: %s %s | intent=%s", amount, currency, obj.get("id"))
             # TODO: mark order paid
 
         else:
-            logger.info("ℹ️ Unhandled event type: %s", event_type)
+            pass
+#            logger.info("ℹ️ Unhandled event type: %s", event_type)
 
     except Exception:
-        logger.exception("Handler crashed for event %s (%s)", event_id, event_type)
+        pass
+#        logger.exception("Handler crashed for event %s (%s)", event_id, event_type)
 
 
 @app.get("/")
 async def read_index():
-    logger.info("GET /")
+#    logger.info("GET /")
     index_path = BASE_DIR / "templates" / "index.html"
     if index_path.exists():
         return FileResponse(index_path)
@@ -91,10 +93,10 @@ async def read_index():
 
 @app.post("/api/payment/callback")
 async def payment_callback(request: Request, background_tasks: BackgroundTasks):
-    logger.info("POST /api/payment/callback")
+#    logger.info("POST /api/payment/callback")
 
     if not WEBHOOK_SECRET:
-        logger.error("Webhook secret not configured")
+#        logger.error("Webhook secret not configured")
         raise HTTPException(status_code=500, detail="Webhook secret not configured")
 
     try:
@@ -128,7 +130,7 @@ async def payment_callback(request: Request, background_tasks: BackgroundTasks):
 
         # --- Prevent duplicates ---
         if db.contains(Query().event_id == event_id):
-            logger.info("Duplicate event received: %s", event_id)
+#            logger.info("Duplicate event received: %s", event_id)
             return JSONResponse(status_code=200, content={"received": True, "duplicate": True})
 
         # --- Store event id & type only ---
@@ -140,7 +142,7 @@ async def payment_callback(request: Request, background_tasks: BackgroundTasks):
         return JSONResponse(status_code=200, content={"received": True})
 
     except stripe.error.SignatureVerificationError:
-        logger.warning("Invalid Stripe signature")
+#        logger.warning("Invalid Stripe signature")
         raise HTTPException(status_code=400, detail="Invalid signature")
 
     except HTTPException:
@@ -148,7 +150,7 @@ async def payment_callback(request: Request, background_tasks: BackgroundTasks):
         raise
 
     except Exception as e:
-        logger.exception("Unexpected error while handling webhook: %s", e)
+#        logger.exception("Unexpected error while handling webhook: %s", e)
         raise HTTPException(status_code=500, detail="Webhook processing error")
 
 

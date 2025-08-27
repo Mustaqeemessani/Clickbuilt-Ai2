@@ -26,3 +26,4 @@
 [2025-08-23 17:40:53,459] [INFO] ✅ Checkout completed by uthmanabdulazeez2020@gmail.com | session=cs_test_a1uMGdecolY0CluuCYe7WAywUyo6l3KIQ2k1KcV7QVv92SB7NVLxds0vPi
 [2025-08-23 17:40:53,792] [INFO] Processing event evt_3RzRzDAKUN2go7Zi3cUqeBBp (payment_intent.created)
 [2025-08-23 17:40:53,793] [INFO] ℹ️ Unhandled event type: payment_intent.created
+[2025-08-26 20:32:06,722] [INFO] GET /
