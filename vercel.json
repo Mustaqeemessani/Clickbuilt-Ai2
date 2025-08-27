@@ -10,10 +10,5 @@
             "src": "/(.*)",
             "dest": "main.py"
         }
-    ],
-    "functions": {
-        "main.py": {
-            "runtime": "python3.11"
-        }
-    }
+    ]
 }
